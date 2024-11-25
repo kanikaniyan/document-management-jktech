@@ -15,7 +15,7 @@ export class UserService {
     ) {}
 
     async findAll(): Promise<User[]> {
-        return this.userRepository.find();
+        return await this.userRepository.find();
     }
 
     async createUser(createUserDto: CreateUserDto): Promise<User> {
@@ -55,7 +55,7 @@ export class UserService {
 
     async remove(id: string): Promise<boolean> {
         const user = await this.findOne(id);
-
+        
         if (!user) {
             throw new NotFoundException('User not found');
         }
@@ -65,10 +65,10 @@ export class UserService {
     }
 
     async findOne(id: string): Promise<User> {
-        return this.userRepository.findOne({ where: { id }});
+        return await this.userRepository.findOne({ where: { id } });
     }
 
     async findByEmail(email: string): Promise<User | undefined> {
-        return this.userRepository.findOne({ where: { email } });
+        return await this.userRepository.findOne({ where: { email } });
     }
 }

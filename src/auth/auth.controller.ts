@@ -14,7 +14,7 @@ export class AuthController {
     @UseGuards(LocalAuthGuard)
     @Post('login')
     @ApiOperation({ summary: 'User login' })
-    @ApiResponse({ status: 200, description: 'Login successful' })
+    @ApiResponse({ status: 201, description: 'Login successful' })
     @ApiResponse({ status: 401, description: 'Unauthorized' })
     async login(@Body() loginDto: LoginDto, @Request() req) {
         return this.authService.login(req.user);

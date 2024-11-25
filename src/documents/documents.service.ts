@@ -15,7 +15,7 @@ export class DocumentsService {
     ) {}
 
     async createDoc (createDocumentDto: CreateDocumentDto, file: Express.Multer.File, user: User): Promise<Document> {
-        const document = this.documentRepository.create({
+        const document = await this.documentRepository.create({
             ...createDocumentDto,
             fileName: file.originalname,
             filePath: file.path,
@@ -24,7 +24,7 @@ export class DocumentsService {
             uploadedBy: { id: user.id },
         });
 
-        return this.documentRepository.save(document);
+        return await this.documentRepository.save(document);
     }
 
     async findAll(page: number = 1, limit: number = 10): Promise<{ items: Document[]; total: number }> {
@@ -67,7 +67,7 @@ export class DocumentsService {
 
     async update(id: string, updateDocumentDto: UpdateDocumentDto, file: Express.Multer.File | null, user: User): Promise<Document> {
         const document = await this.findOne(id);
-
+        
         if (!document) {
             throw new BadRequestException('Document not found');
         }

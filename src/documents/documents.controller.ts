@@ -1,4 +1,4 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
+import { BadRequestException, Body, Controller, Delete, Get, Param, Patch, Post, Query, Request, UploadedFile, UseGuards, UseInterceptors } from '@nestjs/common';
 import { ApiBody, ApiConsumes, ApiOperation, ApiTags } from '@nestjs/swagger';
 import { DocumentsService } from './documents.service';
 import { CreateDocumentDto } from './dto/create-document.dto';
@@ -33,6 +33,9 @@ export class DocumentsController {
         },
     })
     createDocument(@Body() createDocumentDto: CreateDocumentDto, @UploadedFile() file: Express.Multer.File, @Request() req,) {
+        if (!file || file.size === 0) {
+            throw new BadRequestException('Please upload a document');
+        }
         return this.documentsService.createDoc(createDocumentDto, file, req.user);
     }
 
