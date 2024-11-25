@@ -35,6 +35,7 @@ export class IngestionController {
 
     @Post('reprocess-failed')
     @Roles(UserRole.ADMIN)
+    @ApiOperation({ summary: 'Reprocess failed ingestion' })
     async reprocessFailedIngestion(@Request() req) {
         return this.ingestionService.reprocessFailedIngestion(req.user);
     }
